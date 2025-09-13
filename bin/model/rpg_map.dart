@@ -1,9 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'rpg_model.g.dart';
+part 'rpg_map.g.dart';
 
 @JsonSerializable()
-class RpgModel {
+class RpgMap {
   @JsonKey(name: "autoplayBgm")
   bool autoplayBgm;
   @JsonKey(name: "autoplayBgs")
@@ -53,7 +53,7 @@ class RpgModel {
   @JsonKey(name: "events")
   List<Event?> events;
 
-  RpgModel({
+  RpgMap({
     required this.autoplayBgm,
     required this.autoplayBgs,
     required this.battleback1Name,
@@ -80,7 +80,7 @@ class RpgModel {
     required this.events,
   });
 
-  RpgModel copyWith({
+  RpgMap copyWith({
     bool? autoplayBgm,
     bool? autoplayBgs,
     String? battleback1Name,
@@ -106,7 +106,7 @@ class RpgModel {
     List<int>? data,
     List<Event?>? events,
   }) =>
-      RpgModel(
+      RpgMap(
         autoplayBgm: autoplayBgm ?? this.autoplayBgm,
         autoplayBgs: autoplayBgs ?? this.autoplayBgs,
         battleback1Name: battleback1Name ?? this.battleback1Name,
@@ -133,9 +133,9 @@ class RpgModel {
         events: events ?? this.events,
       );
 
-  factory RpgModel.fromJson(Map<String, dynamic> json) => _$RpgModelFromJson(json);
+  factory RpgMap.fromJson(Map<String, dynamic> json) => _$RpgMapFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RpgModelToJson(this);
+  Map<String, dynamic> toJson() => _$RpgMapToJson(this);
 }
 
 @JsonSerializable()

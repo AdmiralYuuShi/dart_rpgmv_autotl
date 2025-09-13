@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'rpg_model.dart';
+part of 'rpg_map.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-RpgModel _$RpgModelFromJson(Map<String, dynamic> json) => RpgModel(
+RpgMap _$RpgMapFromJson(Map<String, dynamic> json) => RpgMap(
       autoplayBgm: json['autoplayBgm'] as bool,
       autoplayBgs: json['autoplayBgs'] as bool,
       battleback1Name: json['battleback1Name'] as String,
@@ -38,7 +38,7 @@ RpgModel _$RpgModelFromJson(Map<String, dynamic> json) => RpgModel(
           .toList(),
     );
 
-Map<String, dynamic> _$RpgModelToJson(RpgModel instance) => <String, dynamic>{
+Map<String, dynamic> _$RpgMapToJson(RpgMap instance) => <String, dynamic>{
       'autoplayBgm': instance.autoplayBgm,
       'autoplayBgs': instance.autoplayBgs,
       'battleback1Name': instance.battleback1Name,

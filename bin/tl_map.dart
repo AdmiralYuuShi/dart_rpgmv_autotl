@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:translator/translator.dart';
 
-import 'model/rpg_model.dart';
+import 'model/rpg_map.dart';
 import 'extensions/num_extensions.dart';
 
 Future<void> tlMap() async {
@@ -16,7 +16,7 @@ Future<void> tlMap() async {
 
   // {original: translated}
   // To check if there is same original text, so no need to retranslate
-  Map<String, String> translated = {};
+  Map<String, String> dictionary = {};
 
   while (!isDone) {
     index++;
@@ -32,7 +32,7 @@ Future<void> tlMap() async {
       }
 
       final data = await json.decode(file.readAsStringSync());
-      RpgModel model = RpgModel.fromJson(data);
+      RpgMap model = RpgMap.fromJson(data);
 
       int totalVal = model.events
           .map((e) => (e?.pages ?? [])
@@ -55,15 +55,15 @@ Future<void> tlMap() async {
                 final DateTime startTime = DateTime.now();
                 String textToTl = model.events[i]?.pages[j].list[k].parameters[l];
                 print('($path | $current/$totalVal) TRANSLATING... : $textToTl');
-                String tled = translated[textToTl] != null
-                    ? translated[textToTl]!
+                String tled = dictionary[textToTl] != null
+                    ? dictionary[textToTl]!
                     : (await translator.translate(textToTl, from: 'ja', to: 'en')).text;
 
                 int time = DateTime.now().difference(startTime).inMilliseconds;
 
                 if (tled.toLowerCase() != textToTl.toLowerCase()) {
                   model.events[i]?.pages[j].list[k].parameters[l] = tled;
-                  translated[textToTl] = tled;
+                  dictionary[textToTl] = tled;
                 }
 
                 totalTime += time;
@@ -77,13 +77,13 @@ Future<void> tlMap() async {
                     print(
                         '($path | $current/$totalVal) TRANSLATING... : ${model.events[i]?.pages[j].list[k].parameters[l][m]}');
                     String textToTl = model.events[i]?.pages[j].list[k].parameters[l][m];
-                    String tled = translated[textToTl] != null
-                        ? translated[textToTl]!
+                    String tled = dictionary[textToTl] != null
+                        ? dictionary[textToTl]!
                         : (await translator.translate(textToTl, from: 'ja', to: 'en')).text;
 
                     if (tled.toLowerCase() != textToTl.toLowerCase()) {
                       model.events[i]?.pages[j].list[k].parameters[l][m] = tled;
-                      translated[textToTl] = tled;
+                      dictionary[textToTl] = tled;
                     }
                   }
                 }
@@ -98,12 +98,11 @@ Future<void> tlMap() async {
       }
 
       String resultPath = 'bin/data/result/Map${'$index'.padLeft(3, '0')}.json';
-      // File resultFile = await File(resultPath).create();
       await File(resultPath).writeAsString(json.encode(model.toJson()));
 
       allTotalTime += totalTime;
       print(
-          '$path Done in ${totalTime.msToSec}s | Time : ${allTotalTime.msToSec}s | Translated : ${translated.length}');
+          '$path Done in ${totalTime.msToSec}s | Time : ${allTotalTime.msToSec}s | dictionary : ${dictionary.length}');
     } catch (e) {
       print('$path Error : $e');
     }
